@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Twitter_clone</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <a class="navbar-brand" href="#">My_Twitter</a>
+         
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+            <ul class="nav navbar-nav">
+                <a class="nav-item nav-link" href="/post"><strong>Explore</strong></a>
+              </ul>
+
+            <div class="nav navbar-nav ml-auto">
+                <% if(!currentUser) {%>
+                <a class="nav-item nav-link " href="/login"><strong>Login</strong><span
+                        class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/register"><strong>Sign up</strong></a>
+                <%}  else { %>
+                <a class="nav-item nav-link" href="#"><strong>Home</strong></a>
+                <a class="nav-item nav-link" href="#">Signed in as <strong><%= currentUser.username %></strong></a>
+                <a class="nav-item nav-link" href="/logout"><strong>Logout</strong></a>
+                <%  } %>
+            </div>
+        </div>
+    </nav>
+<!-- =============Flash messages======================= -->
+
+    <div class="container" style="margin-top: 20px;">
+        <% if(error && error.length >0 ) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+        <% } %>
+        <% if(error && success.length >0 ) { %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+        <% } %>
+    </div>
