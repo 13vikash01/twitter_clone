@@ -14,22 +14,21 @@
           
             <% posts.forEach(function(post){ %>
 
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6" style="margin-top: 15px; width: 100%; height: 100%;">
 
                 <div class="thumbnail">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card">
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: center;"><%= post.author %></h5>
                             <p class="card-text"> <%= post.text.substring(0,100) %> ... </p>
                             <%if(currentUser && post.author != currentUser.username){%>
 
                                <%if(currentUser.following.filter((user)=>user.name==post.author).length==0){%>
-                                    <a class="card-link btn btn-xs btn-primary" href="/follow/<%=post.author%>">Follow</a>
+                                    <a class="card-link  bton btn btn-primary btn-sm" href="/follow/<%=post.author%>">Follow</a>
                                   <%}else{%>
-                                    <a class="card-link btn btn-xs btn-primary" href="/unfollow/<%=post.author%>">UnFollow</a>
+                                    <a class="card-link bton btn btn-primary btn-sm" href="/unfollow/<%=post.author%>">UnFollow</a>
                                   <%}%>
-
-                                   <a href="/post/<%= post._id %>" class="card-link btn btn-xs btn-primary">Read more</a>
+                                   <a href="/post/<%= post._id %>" class="card-link btn btn-primary btn-sm bton">Read more</a>
                             <%}%>
                         </div>
                     </div>
@@ -39,5 +38,5 @@
         </div>
     </div>
 
-
+</div>
 <%- include('../partials/footer') %>

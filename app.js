@@ -79,7 +79,7 @@ app.use(repliesRoutes);
 
 
 app.get('/',(req,res)=>{
-    res.send("hello");
+    res.render("main");
 })
 
 
