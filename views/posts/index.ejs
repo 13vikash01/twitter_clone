@@ -20,33 +20,16 @@
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: center;"><%= post.author %></h5>
-                            <p class="card-text"> <%= post.text %> </p>
+                            <p class="card-text"> <%= post.text.substring(0,100) %> ... </p>
                             <%if(currentUser && post.author != currentUser.username){%>
 
                                <%if(currentUser.following.filter((user)=>user.name==post.author).length==0){%>
-                                    <a class="card-link" href="/follow/<%=post.author%>">Follow</a>
+                                    <a class="card-link btn btn-xs btn-primary" href="/follow/<%=post.author%>">Follow</a>
                                   <%}else{%>
-                                    <a class="card-link" href="/unfollow/<%=post.author%>">UnFollow</a>
+                                    <a class="card-link btn btn-xs btn-primary" href="/unfollow/<%=post.author%>">UnFollow</a>
                                   <%}%>
 
-                                  <div>
-                                    <form action="/post/<%= post._id %>/like" method="POST">
-                                        <div class="btn-group">
-                                            <% if (currentUser && post.likes.some(function (like) {
-                                                return like.equals(currentUser._id)
-                                            })) { %>
-                                                <button class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-thumbs-up"></i> Liked (<%= post.likes.length %>)
-                                                </button>
-                                            <% } else { %>
-                                                <button class="btn btn-sm btn-secondary">
-                                                    <i class="fas fa-thumbs-up"></i> Like (<%= post.likes.length %>)
-                                                </button>
-                                            <% } %>
-                                        </div>
-                                    </form>
-                                </div>
-                                   <a href="#" class="card-link">Comment</a>
+                                   <a href="/post/<%= post._id %>" class="card-link btn btn-xs btn-primary">Read more</a>
                             <%}%>
                         </div>
                     </div>

@@ -1,0 +1,70 @@
+ <%- include('../partials/header'); -%>
+
+
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead"><Strong>Post of <%= post.name %></Strong></p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item ">Info 2</li>
+                <li class="list-group-item ">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <p><%= post.text %></p>
+                <div class="caption-full">
+                    <p>
+                        <em>Twitted By: <%= post.author %> , Added
+                            <%= moment(post.Created).fromNow() %>
+                        </em>
+                    </p>
+                    <div>
+                        <form action="/post/<%= post._id %>/like" method="POST">
+                            <div class="btn-group">
+                                <% if (currentUser && post.likes.some(function (like) {
+                                    return like.equals(currentUser._id)
+                                })) { %>
+                                    <button class="btn btn-sm btn-primary">
+                                        <i class="fas fa-thumbs-up"></i> Liked (<%= post.likes.length %>)
+                                    </button>
+                                <% } else { %>
+                                    <button class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-thumbs-up"></i> Like (<%= post.likes.length %>)
+                                    </button>
+                                <% } %>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="well" id="well-custom">
+
+                <div class="text-right">
+                    <a class="btn btn-success" href="/post/<%= post._id %>/comment/new">Add a Comment</a>
+                </div>
+                <hr>
+                <% post.replies.forEach(function(comment){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><%= comment.author.username %></strong>
+                        <span class="float-right"><%= moment(comment.Created).fromNow() %></span>
+                        <p>
+                            <%= comment.text %>
+                        </p>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<%- include('../partials/footer'); -%> 

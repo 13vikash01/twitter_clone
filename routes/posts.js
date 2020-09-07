@@ -42,6 +42,21 @@ router.post('/post/new', (req, res) => {
 })
 
 
+router.get('/post/:id',(req,res)=>{
+    Post.findById(req.params.id).populate("replies").exec(function(err,data){
+          if(err)
+          {
+              console.log("err")
+          }
+          else
+          {
+              res.render("posts/show",{post:data})
+          }
+    })
+})
+
+
+
 router.get('/explore',function(req,res){
 
     Post.find({}).sort({Created:-1}).exec((err,data)=>

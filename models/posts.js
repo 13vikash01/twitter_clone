@@ -18,10 +18,8 @@ const postSchema=new mongoose.Schema({
        Created:{type: Date,default:Date.now},
        replies:[
            {
-               Id:{
-                   type:[mongoose.Schema.Types.ObjectId],
-                   ref:'Replies'
-               }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Replies"
            }
        ],
        likes: [

@@ -42,6 +42,7 @@ app.locals.moment = require('moment');
 
 var   indexRoutes       =   require("./routes/user")
 var   postRoutes        =   require("./routes/posts")
+var   repliesRoutes     =   require('./routes/replies')
 
 //==================
 
@@ -74,6 +75,8 @@ app.use(function(req,res,next){
 
 app.use(indexRoutes);
 app.use(postRoutes);
+app.use(repliesRoutes);
+
 
 app.get('/',(req,res)=>{
     res.send("hello");

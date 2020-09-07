@@ -3,7 +3,7 @@ const validator=require('validator')
 
 const ReplySchema=new mongoose.Schema({
 
-    comment : {
+    text : {
         type:String,
         validate:{
             validator:(value)=>
@@ -14,9 +14,13 @@ const ReplySchema=new mongoose.Schema({
         }
     },
     Created:{type: Date,default:Date.now},
-       author:{
-           type:String
-       },
+    author: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username:String,
+    },
        likes:[
         {
             username:String
