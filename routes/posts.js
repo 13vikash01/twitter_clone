@@ -4,6 +4,8 @@ const User = require('../models/user')
 var middlewares = require("../middlewares")
 
 
+//============getting all Posts==============
+
 router.get('/post', middlewares.isLoggedin, (req, res) => {
     Post.find({}, (err, data) => {
         if (err)
@@ -13,6 +15,11 @@ router.get('/post', middlewares.isLoggedin, (req, res) => {
     })
 })
 
+
+//============================================
+
+
+//================new post====================
 
 router.get('/post/new',middlewares.isLoggedin, (req, res) => {
     res.render('posts/new')
@@ -41,6 +48,9 @@ router.post('/post/new', (req, res) => {
     })
 })
 
+//=====================================================
+
+//=========particular post show page===================
 
 router.get('/post/:id',middlewares.isLoggedin,(req,res)=>{
     Post.findById(req.params.id).populate("replies").exec(function(err,data){
@@ -55,7 +65,9 @@ router.get('/post/:id',middlewares.isLoggedin,(req,res)=>{
     })
 })
 
+//===================================================
 
+//=============explore===============================
 
 router.get('/explore',middlewares.isLoggedin,function(req,res){
 
@@ -72,6 +84,7 @@ router.get('/explore',middlewares.isLoggedin,function(req,res){
     })
 })
 
+//====================================
 
 //==========Like Routes===============
 

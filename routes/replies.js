@@ -4,13 +4,11 @@ var Replies = require("../models/replies");
 var User    = require("../models/user");
 var middlewares = require("../middlewares")
 
-//  -------------------------------
-// COMMENT ROUTES
-// --------------------------------
 
 
 
-//comments new route
+//================comments new route===============
+
 router.get('/post/:id/comment/new',middlewares.isLoggedin, (req, res) => {
     Post.findById(req.params.id, (err, data) => {
         if (err) {
@@ -22,7 +20,8 @@ router.get('/post/:id/comment/new',middlewares.isLoggedin, (req, res) => {
     })
 })
 
-//comment new post route
+//=================comment new post route================
+
 router.post('/post/:id/comment',middlewares.isLoggedin, (req, res) => {
     Post.findById(req.params.id, (err, post) => {
         if (err) {

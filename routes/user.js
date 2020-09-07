@@ -8,13 +8,14 @@ var middlewares = require("../middlewares")
 
 //====ADDING AUTHENTICATION ROUTES =============
 
-//new user signup route
+//===========new user signup route==========
 router.get('/register',(req, res) => {
     res.render("register")
 })
 
 
-// new user signup post route
+//============ new user signup post route==========
+
 router.post('/register', (req, res) => {
     var newuser = new User({ name: req.body.name, email: req.body.email, username: req.body.username, });
     User.register(newuser, req.body.password, function (err, data) {
@@ -31,7 +32,8 @@ router.post('/register', (req, res) => {
     })
 })
 
-// show login auth. form
+// ==============show login auth. form=============
+
 router.get('/login', (req, res) => {
     res.render("login")
 })
@@ -200,6 +202,7 @@ router.get('/profile', middlewares.isLoggedin,function(req,res){
   })
   
 
+//============profile route=====================
 
   router.get('/profile/:username',middlewares.isLoggedin,function(req,res){
 
@@ -233,7 +236,7 @@ router.get('/profile', middlewares.isLoggedin,function(req,res){
 
 //======================================================
 
-// ADD Logout ROUTE
+//============= ADD Logout ROUTE =================
     router.get("/logout", (req, res) => {
         req.logout();
         req.flash("success", "Logged you out!");

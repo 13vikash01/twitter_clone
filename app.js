@@ -8,7 +8,7 @@ const Posts             = require("./models/posts")
 const Replies           = require("./models/replies")
 const User              = require("./models/user")
 const app               = express()
-const PORT              = process.env.PORT||3000
+const PORT              = process.env.PORT|| 4444
 const mongoose          = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI ||'mongodb://127.0.0.1:27017/twitter_v3', {useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true});
@@ -88,14 +88,10 @@ app.get('/',(req,res)=>{
 
 app.use('*',(req,res)=>
 {
-       res.render('error',{error:'page not found'})
+       res.send("You entered the wrong route");
 })
 
 app.listen(PORT,()=>
 {
     console.log(`http://localhost:${PORT}`)
 })
-
-
-
-
