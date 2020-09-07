@@ -148,7 +148,6 @@ router.get('/unfollow/:author',(req,res)=>
 
     })
 
-
        User.findOneAndUpdate({username:req.user.username},{
        $pull:{"following": {               
          name:req.params.author
@@ -165,6 +164,72 @@ router.get('/unfollow/:author',(req,res)=>
      })       
 })
 
+//===============profile_Route=========================
+
+
+
+router.get('/profile', function(req,res){
+
+      User.findOne({username:req.user.username},(err,founduser)=>
+      {
+            if(err)
+            {
+                console.log(err)
+            }
+            else{
+                let post_array=[]
+                for(let i=0;i<founduser.posts.length;i++)
+                  {
+                      post_array.push(founduser.posts[i].id)
+                  }
+                Post.find().where('_id').in(post_array).exec((err,data)=>
+              {
+                    if(err)
+                    {
+                        console.log(err)
+                       
+                    }
+                    else{
+                        res.render('profile',{user: founduser , posts : data});
+                    }
+              })
+          }
+      })
+      
+  })
+  
+
+
+  router.get('/profile/:username',function(req,res){
+
+      User.findOne({username:req.params.username},(err,user)=>
+      {
+            if(err)
+            {
+                console.log(err)
+            }
+            else{
+                let post_array=[]
+                for(let i=0;i<founduser.posts.length;i++)
+                  {
+                      post_array.push(founduser.posts[i].id)
+                  }
+                Post.find().where('_id').in(post_array).exec((err,data)=>
+              {
+                if(err)
+                {
+                    console.log(err)
+                   
+                }
+                else{
+                    res.render('profile',{user: founduser , posts : data});
+                }
+              })
+          }
+      })      
+  })
+
+
 //======================================================
 
 // ADD Logout ROUTE
@@ -179,56 +244,5 @@ router.get('/unfollow/:author',(req,res)=>
 
 
 
-//===============My profile=========================
-
-
-
- router.get('/myprofile', (req,res)=>
- {
-   
-
-       User.findOne({username:req.user.username},(err,user)=>
-       {
-             if(err)
-             return res.send(err)
-             let ids=[]
-             for(let i=0;i<user.posts.length;i++)
-             ids.push(user.posts[i].id)
-
-             Post.find().where('_id').in(ids).exec((err,posts)=>
-            {
-                 if(err)
-                 return res.send(err)
-                 res.render('profile',{user,posts})
-            })
-       })
-
-       
-   })
-   
-
-
-   router.get('/myprofile/:username',(req,res)=>
- {
-   
-
-       User.findOne({username:req.params.username},(err,user)=>
-       {
-             if(err)
-             return res.send(err)
-             let ids=[]
-             for(let i=0;i<user.posts.length;i++)
-             ids.push(user.posts[i].id)
-
-             Post.find().where('_id').in(ids).exec((err,posts)=>
-            {
-                 if(err)
-                 return res.send(err)
-                 res.render('profile',{user,posts})
-            })
-       })
-
-       
-   })
 
     module.exports = router;

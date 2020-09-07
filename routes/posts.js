@@ -99,7 +99,7 @@ router.post("/post/:id/like", function (req, res) {
                 console.log(err);
             }
             {
-               return res.redirect("/explore");
+               return res.redirect("/post/"+req.params.id);
             }
             
         });
