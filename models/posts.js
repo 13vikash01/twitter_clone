@@ -24,11 +24,12 @@ const postSchema=new mongoose.Schema({
                }
            }
        ],
-       likes:[
+       likes: [
         {
-            username:String
-         }
-     ]
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ]
 
 })
 

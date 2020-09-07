@@ -57,4 +57,41 @@ router.get('/explore',function(req,res){
     })
 })
 
+
+//==========Like Routes===============
+
+router.post("/post/:id/like", function (req, res) {
+     Post.findById(req.params.id, function (err, post) {
+        if (err) {
+            console.log(err);
+        }
+
+        // check if req.user._id exists in user.likes
+        var foundUserLike = post.likes.some(function (like) {
+            return like.equals(req.user._id);
+        });
+
+        if (foundUserLike) {
+            // user already liked, removing like
+            post.likes.pull(req.user._id);
+        } else {
+            // adding the new user like
+            post.likes.push(req.user);
+        }
+
+        post.save(function (err) {
+            if (err) {
+                console.log(err);
+            }
+            {
+               return res.redirect("/explore");
+            }
+            
+        });
+    });
+});
+
+//==================================
+
+
 module.exports = router

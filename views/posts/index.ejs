@@ -28,7 +28,24 @@
                                   <%}else{%>
                                     <a class="card-link" href="/unfollow/<%=post.author%>">UnFollow</a>
                                   <%}%>
-                                   <a href="#" class="card-link">Like</a>
+
+                                  <div>
+                                    <form action="/post/<%= post._id %>/like" method="POST">
+                                        <div class="btn-group">
+                                            <% if (currentUser && post.likes.some(function (like) {
+                                                return like.equals(currentUser._id)
+                                            })) { %>
+                                                <button class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-thumbs-up"></i> Liked (<%= post.likes.length %>)
+                                                </button>
+                                            <% } else { %>
+                                                <button class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-thumbs-up"></i> Like (<%= post.likes.length %>)
+                                                </button>
+                                            <% } %>
+                                        </div>
+                                    </form>
+                                </div>
                                    <a href="#" class="card-link">Comment</a>
                             <%}%>
                         </div>

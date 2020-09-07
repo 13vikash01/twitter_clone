@@ -27,11 +27,10 @@ const userSchema= new mongoose.Schema({
                 name:String
             }
         ]
-        
 })
 
 
 userSchema.plugin(passportLocalMongoose);
 
 
-module.exports=mongoose.model('user',userSchema)
+module.exports=mongoose.model('User',userSchema)
