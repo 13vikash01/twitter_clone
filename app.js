@@ -8,18 +8,21 @@ const Posts             = require("./models/posts")
 const Replies           = require("./models/replies")
 const User              = require("./models/user")
 const app               = express()
-const PORT              =process.env.PORT||3000
+const PORT              = process.env.PORT||3000
+const mongoose          = require('mongoose');
+
+mongoose.connect(process.env.MONGODB_URI ||'mongodb://127.0.0.1:27017/twitter_v3', {useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true});
 
 //==============Mongo setup============
 
-const mongoose = require('mongoose');
-const { Db } = require('mongodb');
-mongoose.connect('mongodb://localhost:27017/twitter_v3', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('Connected to DB!'))
-.catch(error => console.log(error.message));
+
+// const { Db } = require('mongodb');
+// mongoose.connect('mongodb://localhost:27017/twitter_v3', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+// .then(() => console.log('Connected to DB!'))
+// .catch(error => console.log(error.message));
 
 //=====================
 
@@ -92,3 +95,7 @@ app.listen(PORT,()=>
 {
     console.log(`http://localhost:${PORT}`)
 })
+
+
+
+
