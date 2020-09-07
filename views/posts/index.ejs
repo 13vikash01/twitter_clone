@@ -21,12 +21,15 @@
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: center;"><%= post.author %></h5>
                             <p class="card-text"> <%= post.text %> </p>
-                            <% if(currentUser) { %>
-                            <a href="#" class="card-link">Comment</a>
-                            <% } %>
                             <%if(currentUser && post.author != currentUser.username){%>
-                            <a href="#" class="card-link">Follow</a>
-                            <a href="#" class="card-link">Like</a>
+
+                               <%if(currentUser.following.filter((user)=>user.name==post.author).length==0){%>
+                                    <a class="card-link" href="/follow/<%=post.author%>">Follow</a>
+                                  <%}else{%>
+                                    <a class="card-link" href="/unfollow/<%=post.author%>">UnFollow</a>
+                                  <%}%>
+                                   <a href="#" class="card-link">Like</a>
+                                   <a href="#" class="card-link">Comment</a>
                             <%}%>
                         </div>
                     </div>

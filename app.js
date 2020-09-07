@@ -13,7 +13,7 @@ const app               = express()
 
 const mongoose = require('mongoose');
 const { Db } = require('mongodb');
-mongoose.connect('mongodb://localhost:27017/twitter_v2', {
+mongoose.connect('mongodb://localhost:27017/twitter_v3', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

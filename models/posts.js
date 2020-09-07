@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
 const validator=require('validator')
+mongoose.set('useFindAndModify', false);
 
 const postSchema=new mongoose.Schema({
 
@@ -13,9 +14,8 @@ const postSchema=new mongoose.Schema({
                message:'Not more than 500 character'
            }
        },
-       author:{
-           type:String,
-       },
+       author:String,
+       Created:{type: Date,default:Date.now},
        replies:[
            {
                Id:{
@@ -26,10 +26,8 @@ const postSchema=new mongoose.Schema({
        ],
        likes:[
         {
-            username:{
-                type:String
-            }
-        }
+            username:String
+         }
      ]
 
 })

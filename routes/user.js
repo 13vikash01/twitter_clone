@@ -14,7 +14,7 @@ router.get('/register', (req, res) => {
 
 // new user signup post route
 router.post('/register', (req, res) => {
-    var newuser = new User({ name: req.body.name , email: req.body.email , username: req.body.username,});
+    var newuser = new User({ name: req.body.name, email: req.body.email, username: req.body.username, });
     User.register(newuser, req.body.password, function (err, data) {
         if (err) {
             req.flash("error", err.message);
@@ -37,21 +37,92 @@ router.get('/login', (req, res) => {
 //handling login
 router.post('/login', passport.authenticate("local",
     {
-       
+
         successRedirect: "/post/new",
         failureRedirect: "/login"
 
     }), (req, res) => {
-          
+
     })
 
-// ADD Logout ROUTE
-router.get("/logout", (req, res) => {
-    req.logout();
-    req.flash("success", "Logged you out!");
-    res.redirect("/register");
+
+//==========Follower Route =================
+router.get('/follow/:author', (req, res) => {
+    User.findOneAndUpdate({ username : req.params.author}, {
+        $push: {
+            "followers": {
+                name: req.user.username
+            }
+        }
+    }, function(err,data){
+        if(err)
+        {
+            console.log(err)
+        }
+    })
+
+    User.findOneAndUpdate({username:req.user.username},{
+        $push:{"following": {
+          name:req.params.author
+     }}
+    },function(err,data){
+        if(err)
+        {
+            console.log(err)
+        }
+        else{
+            req.flash("success", "You are now following " + req.params.author);
+            res.redirect('/explore')
+        }
+      })
+      
 })
 
+//===============================================
 
 
-module.exports = router;
+//================unfollowRoute==================
+
+router.get('/unfollow/:author',(req,res)=>
+ {
+      User.findOneAndUpdate({username:req.params.author},{
+         $pull:{"followers": {                   
+           name:req.user.username
+      }}
+     },function(err,data){
+        if(err)
+        {
+            console.log(err)
+        }
+
+    })
+
+
+       User.findOneAndUpdate({username:req.user.username},{
+       $pull:{"following": {               
+         name:req.params.author
+    }}
+   },function(err,data){
+       if(err)
+       {
+           console.log(err)
+       }
+       else{
+        req.flash("success", "You unfollowed " + req.params.author);
+        res.redirect('/explore')
+       }
+     })       
+})
+
+//======================================================
+
+// ADD Logout ROUTE
+    router.get("/logout", (req, res) => {
+        req.logout();
+        req.flash("success", "Logged you out!");
+        res.redirect("/register");
+    })
+
+
+
+    module.exports = router;

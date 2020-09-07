@@ -3,10 +3,8 @@ const validator=require('validator')
 
 const ReplySchema=new mongoose.Schema({
 
-    body:{
+    comment : {
         type:String,
-        required:true,
-        trim:true,
         validate:{
             validator:(value)=>
             {
@@ -17,17 +15,14 @@ const ReplySchema=new mongoose.Schema({
     },
     Created:{type: Date,default:Date.now},
        author:{
-           type:String,
-           required:true,
-           trim:true
+           type:String
        },
        likes:[
         {
-            username:{
-                type:String
-            }
+            username:String
         }
      ]
 })
-const Replies=mongoose.model('Replies',ReplySchema)
-module.exports=Replies
+
+
+module.exports=mongoose.model('Replies',ReplySchema)

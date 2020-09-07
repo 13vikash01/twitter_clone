@@ -9,7 +9,7 @@ router.get('/post', (req, res) => {
         if (err)
             return res.send(err)
 
-        res.render('posts/show', { posts: data })
+        res.render('posts/index', { posts: data })
     })
 })
 
@@ -42,7 +42,19 @@ router.post('/post/new', (req, res) => {
 })
 
 
+router.get('/explore',function(req,res){
 
-
+    Post.find({}).sort({Created:-1}).exec((err,data)=>
+    {
+        if(err)
+        {
+         return res.send(err)
+        }
+        else
+        {
+            res.render('posts/index', {posts: data})
+        }
+    })
+})
 
 module.exports = router
