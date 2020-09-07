@@ -202,7 +202,7 @@ router.get('/profile', function(req,res){
 
   router.get('/profile/:username',function(req,res){
 
-      User.findOne({username:req.params.username},(err,user)=>
+      User.findOne({username:req.params.username},(err,founduser)=>
       {
             if(err)
             {
