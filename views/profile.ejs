@@ -2,11 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4 col-md-4 info">
-            <!-- <div>
-                <h3><%= user.name %></h3>
-                <h5><%=user.username %></h5>
-                <h5><%= user.email %> </h5>
-            </div> -->
+            <h1 style="text-align: center; color: black;"> <%= user.name %>'s Profile </h1>
             <div class="card text-white bg-dark" style="width:100%; margin-bottom: 10px;">
                 <div class="card-header">
                     Profile
@@ -42,7 +38,7 @@
         </div>
 
         <div class="col-sm-8 col-md-8 post">
-            <h1 style="text-align: center; color: azure;"> My Posts (<%=user.posts.length%>) </h1>
+            <h1 style="text-align: center; color: azure;"> <%= user.name %>'s Posts (<%=user.posts.length%>) </h1>
             <%posts.forEach(function(post){%>
             <div class="card text-white bg-dark" style="margin-bottom: 10px;">
                 <div class="card-header">

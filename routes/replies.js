@@ -2,6 +2,7 @@ const router = require('express').Router()
 var Post    = require("../models/posts");
 var Replies = require("../models/replies");
 var User    = require("../models/user");
+var middlewares = require("../middlewares")
 
 //  -------------------------------
 // COMMENT ROUTES
@@ -10,7 +11,7 @@ var User    = require("../models/user");
 
 
 //comments new route
-router.get('/post/:id/comment/new', (req, res) => {
+router.get('/post/:id/comment/new',middlewares.isLoggedin, (req, res) => {
     Post.findById(req.params.id, (err, data) => {
         if (err) {
             console.log("error")
@@ -22,11 +23,10 @@ router.get('/post/:id/comment/new', (req, res) => {
 })
 
 //comment new post route
-router.post('/post/:id/comment', (req, res) => {
+router.post('/post/:id/comment',middlewares.isLoggedin, (req, res) => {
     Post.findById(req.params.id, (err, post) => {
         if (err) {
-            console.log("did not pass this")
-            res.redirect("/explore")
+            res.send("Length of comment exceeded 500 characters");
         }
         else {
             Replies.create(req.body.comment, (err, comment) => {

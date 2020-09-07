@@ -1,10 +1,10 @@
 const router = require('express').Router()
 const Post = require('../models/posts')
 const User = require('../models/user')
-// const { route } = require('../middlewares')
+var middlewares = require("../middlewares")
 
 
-router.get('/post', (req, res) => {
+router.get('/post', middlewares.isLoggedin, (req, res) => {
     Post.find({}, (err, data) => {
         if (err)
             return res.send(err)
@@ -14,14 +14,14 @@ router.get('/post', (req, res) => {
 })
 
 
-router.get('/post/new', (req, res) => {
+router.get('/post/new',middlewares.isLoggedin, (req, res) => {
     res.render('posts/new')
 })
 
 router.post('/post/new', (req, res) => {
     Post.create({ text: req.body.text, author: req.user.username }, (err, post) => {
         if (err) {
-            return res.send(err)
+            res.send("Length of Post exceeded 500 characters");
         }
         else {
             User.findOneAndUpdate({ username: req.user.username }, {
@@ -42,7 +42,7 @@ router.post('/post/new', (req, res) => {
 })
 
 
-router.get('/post/:id',(req,res)=>{
+router.get('/post/:id',middlewares.isLoggedin,(req,res)=>{
     Post.findById(req.params.id).populate("replies").exec(function(err,data){
           if(err)
           {
@@ -57,7 +57,7 @@ router.get('/post/:id',(req,res)=>{
 
 
 
-router.get('/explore',function(req,res){
+router.get('/explore',middlewares.isLoggedin,function(req,res){
 
     Post.find({}).sort({Created:-1}).exec((err,data)=>
     {
@@ -75,7 +75,7 @@ router.get('/explore',function(req,res){
 
 //==========Like Routes===============
 
-router.post("/post/:id/like", function (req, res) {
+router.post("/post/:id/like", middlewares.isLoggedin , function (req, res) {
      Post.findById(req.params.id, function (err, post) {
         if (err) {
             console.log(err);

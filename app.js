@@ -8,6 +8,7 @@ const Posts             = require("./models/posts")
 const Replies           = require("./models/replies")
 const User              = require("./models/user")
 const app               = express()
+const PORT              =process.env.PORT||3000
 
 //==============Mongo setup============
 
@@ -82,7 +83,12 @@ app.get('/',(req,res)=>{
     res.render("main");
 })
 
+app.use('*',(req,res)=>
+{
+       res.render('error',{error:'page not found'})
+})
 
-app.listen(5555,()=>{
-    console.log("server started at 5555.")
+app.listen(PORT,()=>
+{
+    console.log(`http://localhost:${PORT}`)
 })

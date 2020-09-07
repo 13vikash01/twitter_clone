@@ -3,12 +3,13 @@ var router   = express.Router();
 var passport = require("passport");
 var User     = require("../models/user");
 var Post     = require("../models/posts");
+var middlewares = require("../middlewares")
 
 
 //====ADDING AUTHENTICATION ROUTES =============
 
 //new user signup route
-router.get('/register', (req, res) => {
+router.get('/register',(req, res) => {
     res.render("register")
 })
 
@@ -47,7 +48,7 @@ router.post('/login', passport.authenticate("local",
     })
 
 //==============homeRoute==================
-router.get('/home',(req,res)=>
+router.get('/home',middlewares.isLoggedin,(req,res)=>
 {
     User.findOne({username:req.user.username},function(err,user){
           if(err)
@@ -98,7 +99,7 @@ router.get('/home',(req,res)=>
 
 
 //==========Follower Route =================
-router.get('/follow/:author', (req, res) => {
+router.get('/follow/:author',middlewares.isLoggedin, (req, res) => {
     User.findOneAndUpdate({ username : req.params.author}, {
         $push: {
             "followers": {
@@ -134,7 +135,7 @@ router.get('/follow/:author', (req, res) => {
 
 //================unfollowRoute==================
 
-router.get('/unfollow/:author',(req,res)=>
+router.get('/unfollow/:author',middlewares.isLoggedin,(req,res)=>
  {
       User.findOneAndUpdate({username:req.params.author},{
          $pull:{"followers": {                   
@@ -168,7 +169,7 @@ router.get('/unfollow/:author',(req,res)=>
 
 
 
-router.get('/profile', function(req,res){
+router.get('/profile', middlewares.isLoggedin,function(req,res){
 
       User.findOne({username:req.user.username},(err,founduser)=>
       {
@@ -200,7 +201,7 @@ router.get('/profile', function(req,res){
   
 
 
-  router.get('/profile/:username',function(req,res){
+  router.get('/profile/:username',middlewares.isLoggedin,function(req,res){
 
       User.findOne({username:req.params.username},(err,founduser)=>
       {
