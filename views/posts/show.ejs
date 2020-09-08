@@ -1,4 +1,4 @@
- <%- include('../partials/header'); -%>
+<%- include('../partials/header'); -%>
 
 
 
@@ -14,7 +14,14 @@
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <p><%= post.text %></p>
+                <div class="card-header bg-primary text-white">
+                    Post
+                </div>
+                <div class="card-body bg-dark text-white">
+                    <blockquote class="blockquote mb-0">
+                        <p><%= post.text%></p>
+                    </blockquote>
+                </div>
                 <div class="caption-full">
                     <p>
                         <em>Twitted By: <%= post.author %> , Added
@@ -27,13 +34,13 @@
                                 <% if (currentUser && post.likes.some(function (like) {
                                     return like.equals(currentUser._id)
                                 })) { %>
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-thumbs-up"></i> Liked (<%= post.likes.length %>)
-                                    </button>
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-thumbs-up"></i> Liked (<%= post.likes.length %>)
+                                </button>
                                 <% } else { %>
-                                    <button class="btn btn-sm btn-secondary">
-                                        <i class="fas fa-thumbs-up"></i> Like (<%= post.likes.length %>)
-                                    </button>
+                                <button class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-thumbs-up"></i> Like (<%= post.likes.length %>)
+                                </button>
                                 <% } %>
                             </div>
                         </form>
@@ -67,4 +74,4 @@
 
 
 
-<%- include('../partials/footer'); -%> 
+<%- include('../partials/footer'); -%>
