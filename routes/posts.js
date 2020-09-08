@@ -4,19 +4,24 @@ const User = require('../models/user')
 var middlewares = require("../middlewares")
 
 
-//============getting all Posts==============
+//=============getting all the posts===============================
 
-router.get('/post', middlewares.isLoggedin, (req, res) => {
-    Post.find({}, (err, data) => {
-        if (err)
-            return res.send(err)
+router.get('/explore',middlewares.isLoggedin,function(req,res){
 
-        res.render('posts/index', { posts: data })
+    Post.find({}).sort({Created:-1}).exec((err,data)=>
+    {
+        if(err)
+        {
+         return res.send(err)
+        }
+        else
+        {
+            res.render('posts/index', {posts: data})
+        }
     })
 })
 
-
-//============================================
+//====================================
 
 
 //================new post====================
@@ -41,7 +46,7 @@ router.post('/post/new', (req, res) => {
                 if (err) {
                     return res.send(err)
                 } else {
-                    res.redirect('/post')
+                    res.redirect('/explore')
                 }
             })
         }
@@ -66,25 +71,6 @@ router.get('/post/:id',middlewares.isLoggedin,(req,res)=>{
 })
 
 //===================================================
-
-//=============explore===============================
-
-router.get('/explore',middlewares.isLoggedin,function(req,res){
-
-    Post.find({}).sort({Created:-1}).exec((err,data)=>
-    {
-        if(err)
-        {
-         return res.send(err)
-        }
-        else
-        {
-            res.render('posts/index', {posts: data})
-        }
-    })
-})
-
-//====================================
 
 //==========Like Routes===============
 
