@@ -81,17 +81,27 @@ router.get('/home',middlewares.isLoggedin,(req,res)=>
                              related_posts.push(user.posts[i].id)
                          }
                     }
-                    Post.find().where('_id').in(related_posts).exec((err, data)=>
+                     
+                        //========
+                        var perPage = 8;
+                        var pageQuery = parseInt(req.query.page);
+                        var pageNumber = pageQuery ? pageQuery : 1;
+                        //========
+                    Post.find().where('_id').in(related_posts).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, data)=>
                     {
-                         if(err)
-                         {
-                             console.log(err)
-                         }
-                         else
-                         {
-                            res.render('posts/index',{posts : data})
-                         }
-                          
+                        Post.count().exec(function (err, count) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                req.flash("success", "You are on the Home page now");
+                                res.render("posts/index", {
+                                    posts: data,
+                                    current: pageNumber,
+                                    pages: Math.ceil(count / perPage),
+                                    currentpage: "home"
+                                });
+                            }
+                        });    
                     })
                 }
            })
@@ -185,7 +195,7 @@ router.get('/profile', middlewares.isLoggedin,function(req,res){
                   {
                       post_array.push(founduser.posts[i].id)
                   }
-                Post.find().where('_id').in(post_array).exec((err,data)=>
+                Post.find().where('_id').in(post_array).sort({Created: -1}).exec((err,data)=>
               {
                     if(err)
                     {

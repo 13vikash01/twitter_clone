@@ -6,20 +6,45 @@ var middlewares = require("../middlewares")
 
 //=============getting all the posts===============================
 
-router.get('/explore',middlewares.isLoggedin,function(req,res){
+// router.get('/explore',middlewares.isLoggedin,function(req,res){
 
-    Post.find({}).sort({Created:-1}).exec((err,data)=>
-    {
-        if(err)
-        {
-         return res.send(err)
-        }
-        else
-        {
-            res.render('posts/index', {posts: data})
-        }
-    })
-})
+//     Post.find({}).sort({Created:-1}).exec((err,data)=>
+//     {
+//         if(err)
+//         {
+//          return res.send(err)
+//         }
+//         else
+//         {
+//             res.render('posts/index', {posts: data})
+//         }
+//     })
+// })
+
+
+
+router.get("/explore",middlewares.isLoggedin, function (req, res) {
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    Post.find({}).sort({Created: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, data) {
+        Post.count().exec(function (err, count) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("posts/index", {
+                    posts: data,
+                    current: pageNumber,
+                    pages: Math.ceil(count / perPage),
+                    currentpage: "explore"
+                });
+            }
+        });
+    });
+});
+
+
+
 
 //====================================
 
